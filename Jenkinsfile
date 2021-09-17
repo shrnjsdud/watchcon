@@ -4,7 +4,7 @@ node {
         
     slackSend (channel: '#cicd', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
 
-     def VERSION = '2'  
+     def VERSION = '1.0'  
 
 
 
@@ -38,7 +38,7 @@ node {
               sh 'git remote show'
               sh 'git remote remove origin'
               sh 'git remote add origin git@github.com:shrnjsdud/deploy.git'
-              sh "cd overlays/dev && kustomize edit set image repo.nky.wjcloud.co.kr/nky/watchcon:${VERSION}"
+              sh "cd overlays/dev && kustomize edit set image repo.nky.wjcloud.co.kr/nky/wj-watchcon:${VERSION}"
               sh 'cd overlays/dev && kustomize build > ../../deploy.yaml'
               sh 'git add .'
               sh 'git status'

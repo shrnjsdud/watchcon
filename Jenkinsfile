@@ -3,7 +3,11 @@ node {
     try{
         
     slackSend (channel: '#cicd', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+
      def VERSION = '2.0'
+
+
+
         
     
      

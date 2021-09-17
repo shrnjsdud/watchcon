@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="no">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>(주)웅진 :: 맞춤형 서버 모니터링 솔루션 Watchcon</title>
+<style>
+/* APP 설치 영역 */
+button{border:0;}
+body.app{position:relative;background:url(img/app_bg_back.png) 0 0 repeat-y;background-size:100% auto;}
+.app-wrap{position:fixed;top:0;left:0;right:0;bottom:0;min-height:100%;z-index:0;box-sizing:border-box;overflow-y: auto;}
+.app-wrap .tit{width:100%;box-sizing:border-box;margin:0 auto;}
+.app-wrap .tit img{display:block;margin: 0 auto;padding-bottom: 5%;}
+.app-wrap .login-cont{position:absolute;top:120px;width: 100%; margin: 0 auto;}
+.app-wrap .login-cont .i-btn{margin:20px auto;width:280px;height:57px;line-height:57px;background:url(img/app_btn01_bg.png) top center no-repeat;background-size:100% auto;box-sizing:border-box;font-size:22px;color:#fff;font-weight:400;line-height:100%;display:block;}
+.app-wrap .login-cont .i-btn1{margin:20px auto;width:280px;height:57px;line-height:57px;background:url(img/app_btn02_bg.png) top center no-repeat;background-size:100% auto;box-sizing:border-box;font-size:22px;color:#fff;font-weight:400;line-height:100%;display:block;}
+.app-wrap .login-cont p.txt1{line-height:16px;color: #444;font-weight: 200;width: 100%;text-align:center;font-size:20px; font-weight: 400;color: #fff;}
+
+</style>
+<script type="text/javascript">
+window.downloadFile = function (sUrl) {
+
+//iOS devices do not support downloading. We have to inform user about this.
+if (/(iP)/g.test(navigator.userAgent)) {
+   //alert('Your device does not support files downloading. Please try again in desktop browser.');
+   window.open(sUrl, '_blank');
+   return false;
+}
+
+//If in Chrome or Safari - download via virtual link click
+if (window.downloadFile.isChrome || window.downloadFile.isSafari) {
+	//Creating new link node.
+	var link = document.createElement('a');
+	link.href = sUrl;
+	link.setAttribute('target','_blank');
+
+	if (link.download !== undefined) {
+		//Set HTML5 download attribute. This will prevent file from opening if supported.
+		var fileName = sUrl.substring(sUrl.lastIndexOf('/') + 1, sUrl.length);
+		link.download = fileName;
+	}
+
+	//Dispatching click event.
+	if (document.createEvent) {
+		var e = document.createEvent('MouseEvents');
+		e.initEvent('click', true, true);
+		link.dispatchEvent(e);
+		return true;
+	}
+}
+
+// Force file download (whether supported by server).
+if (sUrl.indexOf('?') === -1) {
+	sUrl += '?download';
+}
+
+window.open(sUrl, '_blank');
+return true;
+}
+
+window.downloadFile.isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+window.downloadFile.isSafari = navigator.userAgent.toLowerCase().indexOf('safari') > -1;
+
+function appDownload(){
+
+var filter = "win16|win32|win64|mac|macintel";
+var vWebType = "";
+
+if (navigator.platform ) {
+	if (filter.indexOf(navigator.platform.toLowerCase()) < 0) { vWebType="MOBILE" ; } else { vWebType="PC" ; } }
+	if(vWebType=="PC" ){
+		alert("PC에서는 앱을 다운로드하실 수 없습니다.\n모바일로 접속하시기 바랍니다.");
+	} 
+	else{ var varUA=navigator.userAgent.toLowerCase();
+		if (varUA.match('android')  !=null) {
+				window.downloadFile("android/watchCon.apk");
+			} else if (varUA.indexOf("iphone")>-1||varUA.indexOf("ipad")>-1||varUA.indexOf("ipod")>-1) {
+				alert("iOS 앱은 준비 중입니다.");
+
+			} else {
+				alert("현재 Android APP만 제공 중에 있습니다.");
+			
+			}
+	}
+
+}
+</script>
+</head>
+<body class="app">
+	<div class="app-wrap">
+		<div class="login-cont">
+		<div class="tit"><img src="img/app_title.png" alt="웅진렌탈"></div>
+			<form>
+				<button type="button" class="i-btn" onclick="javascript:appDownload();">Android 설치</button>
+				<p class="txt1">앱 설치 버튼을 누르세요.</p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

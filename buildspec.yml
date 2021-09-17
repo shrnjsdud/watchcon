@@ -1,0 +1,9 @@
+version: 0.1
+phases:
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mvn -T 2C clean install -Dmaven.test.skip -DskipTests -Dmaven.javadoc.skip=true -Dmaven.junit.fork=true -Dmaven.junit.jvmargs=-Xmx4096m
+artifacts:
+  files:
+    - '**/*' 
